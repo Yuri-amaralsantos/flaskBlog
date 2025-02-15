@@ -1,7 +1,16 @@
+<script setup>
+import Navbar from './components/Navbar.vue';
+</script>
+
 <template>
-  <BlogPosts />
+  <Navbar />
+  <router-view />
 </template>
 
-<script setup>
-import BlogPosts from './components/BlogPosts.vue';
-</script>
+<style scoped>
+nav {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+</style>
