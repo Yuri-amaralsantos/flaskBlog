@@ -43,3 +43,44 @@ export async function deletePost(postId) {
         throw error;  // Propagate the error to handle it in the component
     }
 }
+
+// Fetch Comments for a Post
+export const fetchComments = async (postId) => {
+    try {
+        const response = await api.get(`/blog/${postId}/comments`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching comments:', error);
+        return [];
+    }
+};
+
+// Add a Comment
+export const addComment = async (postId, content) => {
+    const token = localStorage.getItem('token');
+    try {
+        const response = await api.post(
+            `/blog/${postId}/comments`,
+            { content },
+            { headers: { 'Authorization': `Bearer ${token}` } }
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error adding comment:', error);
+        throw error;
+    }
+};
+
+// Delete a Comment
+export const deleteComment = async (commentId) => {
+    const token = localStorage.getItem('token');
+    try {
+        const response = await api.delete(`/blog/comments/${commentId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting comment:', error);
+        throw error;
+    }
+};

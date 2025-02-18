@@ -26,11 +26,12 @@ const login = async () => {
       username: username.value,
       password: password.value
     });
-    
-    // Store token and username only
+
+    // Store token, username, and role
     localStorage.setItem('token', response.data.access_token);
     localStorage.setItem('username', response.data.username);
-    
+    localStorage.setItem('role', response.data.role);  // Store the user's role
+
     // Redirect to home
     router.push('/');
     setTimeout(() => window.location.reload(), 100);
@@ -38,4 +39,5 @@ const login = async () => {
     errorMessage.value = 'Invalid credentials';
   }
 };
+
 </script>

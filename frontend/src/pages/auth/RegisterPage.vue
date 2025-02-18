@@ -4,6 +4,8 @@
     <form @submit.prevent="register">
       <input v-model="username" placeholder="Username" />
       <input v-model="password" type="password" placeholder="Password" />
+
+
       <button type="submit">Register</button>
     </form>
     <p v-if="errorMessage">{{ errorMessage }}</p>
@@ -22,7 +24,8 @@ const register = async () => {
   try {
     await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, {
       username: username.value,
-      password: password.value
+      password: password.value,
+      role: "user"
     });
     alert('Registration successful!');
   } catch (error) {

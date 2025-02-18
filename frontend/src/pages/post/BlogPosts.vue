@@ -6,16 +6,19 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const posts = ref([]);
 const errorMessage = ref('');
-const username = localStorage.getItem('username') || ''; // Get logged-in username
+const userRole = localStorage.getItem('role') || ''; // Get user role (assumed stored in localStorage)
 
 // Check if the user is logged in
 const isLoggedIn = computed(() => !!localStorage.getItem('token'));
 
+// Check if the user is admin
+const isAdmin = computed(() => userRole === 'admin');
+
 // Load posts from the API
 const loadPosts = async () => {
   try {
+    console.log(userRole)
     posts.value = await fetchPosts();
-
   } catch (error) {
     errorMessage.value = 'Error loading posts';
   }
@@ -37,7 +40,8 @@ const removePost = async (postId) => {
 
   try {
     await deletePost(postId);
-    posts.value = posts.value.filter(post => post.post_id !== postId); // Remove from UI
+    posts.value = posts.value.filter(post => post.id !== postId);
+    window.location.reload();
   } catch (error) {
     errorMessage.value = 'Error deleting post';
   }
@@ -55,7 +59,8 @@ const goToCreatePost = () => {
   <div>
     <h1>Blog Posts</h1>
 
-    <button v-if="isLoggedIn" @click="goToCreatePost">Create Post</button>
+    <!-- Admin sees the Create Post button -->
+    <button v-if="isLoggedIn && isAdmin" @click="goToCreatePost">Create Post</button>
 
     <p v-if="errorMessage">{{ errorMessage }}</p>
 
@@ -69,18 +74,16 @@ const goToCreatePost = () => {
           <!-- Link to Post Detail Page -->
           <button><router-link class="link" :to="{ name: 'postDetail', params: { id: post.id } }">Read
               More</router-link></button>
-          <!-- Delete button visible if the user is logged in and is the author -->
-          <button v-if="isLoggedIn && post.author === username" @click="removePost(post.id)">
+
+          <!-- Delete button visible if the user is logged in, is the author, or is an admin -->
+          <button v-if="isLoggedIn && isAdmin" @click="removePost(post.id)">
             Delete
           </button>
-
-
         </div>
       </div>
     </div>
   </div>
 </template>
-
 
 <style scoped>
 .link {

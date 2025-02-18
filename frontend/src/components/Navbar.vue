@@ -11,6 +11,7 @@ const isLoggedIn = computed(() => !!localStorage.getItem('token'));
 const logout = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('username');
+  localStorage.removeItem('role');
   user.value.username = 'Guest';
   router.push('/login');
   window.location.reload();
