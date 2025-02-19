@@ -22,8 +22,12 @@
             <p>Postado por: {{ post.author }} | {{ formatDate(post.created_at) }}</p>
           </div>
           <div>
-            <!-- Delete button visible if the user is logged in, is the author, or is an admin -->
-            <button v-if="isLoggedIn && isAdmin" @click.stop="removePost(post.id)" class="delete">
+            <button v-if="isLoggedIn && (post.author === username || isAdmin)" @click.stop=" editPost(post.id)"
+              class="edit">
+              Editar
+            </button>
+            <button v-if="isLoggedIn && (post.author === username || isAdmin)" @click.stop="removePost(post.id)"
+              class="delete">
               Deletar
             </button>
           </div>
@@ -46,6 +50,13 @@ const userRole = localStorage.getItem('role') || '';
 
 // Check if the user is logged in
 const isLoggedIn = computed(() => !!localStorage.getItem('token'));
+
+const username = localStorage.getItem('username') || '';
+
+const editPost = (postId) => {
+  router.push({ name: 'editPost', params: { id: postId } });
+};
+
 
 // Check if the user is admin
 const isAdmin = computed(() => userRole === 'admin');
@@ -167,6 +178,7 @@ const truncateWords = (text, maxWords) => {
 }
 
 .delete {
+  margin-left: 1rem;
   padding: 8px 16px;
   background: red;
   color: white;
@@ -179,5 +191,11 @@ const truncateWords = (text, maxWords) => {
   border-radius: 10px;
   border: 1px solid black;
   width: 100%;
+}
+
+.edit {
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 10px;
 }
 </style>

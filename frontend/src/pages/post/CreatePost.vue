@@ -42,8 +42,9 @@ const createPost = async () => {
 <template>
   <div class="page">
     <h1>Criar postagem</h1>
-
-    <input v-model="title" placeholder="Titulo (maximo de 200 characteres)" class="input" />
+    <label for="title">Título (maximo de 200 characteres):</label>
+    <input v-model="title" placeholder="Titulo " class="input" />
+    <label for="content">Texto:</label>
     <textarea v-model="content" placeholder="Texto" class="textarea"></textarea>
     <button @click="createPost" class="button">Postar</button>
 
@@ -72,7 +73,7 @@ const createPost = async () => {
 
 .textarea {
   padding: 1rem 1rem;
-  min-height: 300px;
+  min-height: 200px;
 }
 
 .button {

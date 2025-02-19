@@ -41,6 +41,21 @@ export const fetchPostById = async (postId) => {
     }
 };
 
+// Update Post
+export const updatePostById = async (postId, postData) => {
+    const token = localStorage.getItem('token');
+    try {
+        const response = await api.put(`/blog/${postId}`, postData, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating post:', error);
+        throw error;
+    }
+};
+
+
 // Delete Post
 export async function deletePost(postId) {
     const token = localStorage.getItem('token');
