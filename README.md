@@ -35,15 +35,25 @@ npm run dev
 
 ## Endpoints da API
 Método	Rota	Descrição	Autenticação
+
 POST	/auth/register	Cadastro de usuários	❌
+
 POST	/auth/login	Login e retorno do token JWT	❌
+
 GET	/posts	Lista todas as postagens	❌
+
 POST	/posts	Cria uma nova postagem	✅
+
 PUT	/posts/{id}	Edita uma postagem	✅ (Dono/Admin)
+
 DELETE	/posts/{id}	Deleta uma postagem	✅ (Dono/Admin)
+
 GET	/posts/{id}/comments	Lista comentários de uma postagem	❌
+
 POST	/comments	Adiciona um comentário	✅
+
 DELETE	/comments/{id}	Remove um comentário	✅ (Dono/Admin)
+
 
 ## Controle de Acesso
 Usuários comuns podem criar postagens, editar/deletar apenas suas próprias postagens/comentários.
