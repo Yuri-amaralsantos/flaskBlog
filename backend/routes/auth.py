@@ -57,3 +57,8 @@ def login():
 def protected():
     current_user_id = get_jwt_identity()  # Agora retorna o ID do usuário
     return jsonify({"message": f"Hello, user with ID {current_user_id}!"})
+
+@auth_bp.route('/check_token', methods=['GET'])
+@jwt_required()
+def check_token():
+    return jsonify({"valid": True})

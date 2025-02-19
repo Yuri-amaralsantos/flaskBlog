@@ -1,14 +1,28 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000', // Correct URL for your API
+    baseURL: import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000', // API URL from env or default
 });
+
+// Check if Token is Valid
+export async function checkToken() {
+    const token = localStorage.getItem("token");
+    if (!token) return false; // No token, so it's invalid
+
+    try {
+        const response = await api.get('/auth/check_token', {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+        return response.data.valid;
+    } catch (error) {
+        return false; // Token expired or invalid
+    }
+}
 
 // Fetch Posts
 export const fetchPosts = async () => {
     try {
         const response = await api.get('/blog');
-        // This will correctly hit the /blog route
         return response.data;
     } catch (error) {
         console.error('Error fetching posts:', error);
@@ -16,10 +30,11 @@ export const fetchPosts = async () => {
     }
 };
 
+// Fetch Single Post
 export const fetchPostById = async (postId) => {
     try {
         const response = await api.get(`/blog/${postId}`);
-        return response.data;  // Axios response data is directly in response.data
+        return response.data;
     } catch (error) {
         console.error('Error fetching post:', error);
         throw new Error('Post not found');
@@ -31,16 +46,12 @@ export async function deletePost(postId) {
     const token = localStorage.getItem('token');
     try {
         const response = await api.delete(`/blog/${postId}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+            headers: { Authorization: `Bearer ${token}` }
         });
-
-        // Axios throws an error on failure, so no need for response.ok check
-        return response.data;  // Assuming the API returns a response body
+        return response.data;
     } catch (error) {
         console.error('Error deleting post:', error);
-        throw error;  // Propagate the error to handle it in the component
+        throw error;
     }
 }
 
@@ -62,7 +73,7 @@ export const addComment = async (postId, content) => {
         const response = await api.post(
             `/blog/${postId}/comments`,
             { content },
-            { headers: { 'Authorization': `Bearer ${token}` } }
+            { headers: { Authorization: `Bearer ${token}` } }
         );
         return response.data;
     } catch (error) {
@@ -76,7 +87,7 @@ export const deleteComment = async (commentId) => {
     const token = localStorage.getItem('token');
     try {
         const response = await api.delete(`/blog/comments/${commentId}`, {
-            headers: { 'Authorization': `Bearer ${token}` }
+            headers: { Authorization: `Bearer ${token}` }
         });
         return response.data;
     } catch (error) {
@@ -84,3 +95,5 @@ export const deleteComment = async (commentId) => {
         throw error;
     }
 };
+
+export default api;

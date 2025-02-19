@@ -1,21 +1,12 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { inject, computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const user = ref({
-  username: localStorage.getItem('username') || 'Guest',
-});
-const isLoggedIn = computed(() => !!localStorage.getItem('token'));
+const isAuthenticated = inject("isAuthenticated"); // Inject global state
+const logout = inject("logout"); // Inject logout function
 
-const logout = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('username');
-  localStorage.removeItem('role');
-  user.value.username = 'Guest';
-  router.push('/login');
-  window.location.reload();
-};
+const user = computed(() => localStorage.getItem('username') || 'Guest');
 </script>
 
 <template>
@@ -24,8 +15,8 @@ const logout = () => {
       <router-link to="/">My Blog</router-link>
     </div>
     <div class="nav-right">
-      <template v-if="isLoggedIn">
-        <span>Welcome, {{ user.username }}</span>
+      <template v-if="isAuthenticated">
+        <span>Welcome, {{ user }}</span>
         <button @click="logout">Log Out</button>
       </template>
       <template v-else>
