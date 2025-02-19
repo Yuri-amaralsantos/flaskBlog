@@ -21,8 +21,7 @@ function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("username");
   localStorage.removeItem("role");
-  isAuthenticated.value = false; // Update state
-  router.push("/");
+  isAuthenticated.value = false; // Update state;
 }
 
 // Provide authentication state and logout function to all child components
@@ -31,7 +30,7 @@ provide("logout", logout);
 
 onMounted(() => {
   verifyToken();
-  setInterval(verifyToken, 30000); // Check token every 30 seconds
+  setInterval(verifyToken, 200000); // Check token every 30 seconds
 });
 </script>
 
