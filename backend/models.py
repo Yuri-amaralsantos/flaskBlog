@@ -28,4 +28,5 @@ class Comment(db.Model):
     post = db.relationship('Post', back_populates='comments')
     user = db.relationship('User')
 
-Post.comments = db.relationship('Comment', back_populates='post', lazy=True)
+Post.comments = db.relationship('Comment', back_populates='post', lazy=True, cascade="all, delete-orphan")
+

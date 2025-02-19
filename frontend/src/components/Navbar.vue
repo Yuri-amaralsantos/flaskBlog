@@ -12,16 +12,16 @@ const user = computed(() => localStorage.getItem('username') || 'Guest');
 <template>
   <nav>
     <div class="nav-left">
-      <router-link to="/">My Blog</router-link>
+      <router-link to="/">Blog</router-link>
     </div>
     <div class="nav-right">
       <template v-if="isAuthenticated">
-        <span>Welcome, {{ user }}</span>
-        <button @click="logout">Log Out</button>
+        <span>Bem vindo, {{ user }}</span>
+        <button @click="logout">Desconectar</button>
       </template>
-      <template v-else>
-        <router-link to="/register">Register</router-link>
-        <router-link to="/login">Login</router-link>
+      <template v-else class="nonlogged">
+        <button><router-link to="/register">Registrar</router-link></button>
+        <button><router-link to="/login">Conectar</router-link></button>
       </template>
     </div>
   </nav>

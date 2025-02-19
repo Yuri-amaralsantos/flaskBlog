@@ -81,6 +81,30 @@ def get_post_detail(post_id):
 
     return jsonify(post_data), 200
 
+@blog_bp.route('/<int:post_id>', methods=['PUT'])
+@jwt_required()
+def edit_post(post_id):
+    data = request.get_json()
+    if not data or not data.get('title') or not data.get('content'):
+        return jsonify({"message": "Invalid data"}), 400
+
+    current_username = get_jwt_identity()  # Get the logged-in user (username)
+
+    post = Post.query.get(post_id)
+    if not post:
+        return jsonify({"message": "Post not found"}), 404
+
+    if post.author_username != current_username:
+        return jsonify({"message": "Unauthorized"}), 403  # Prevents editing by others
+
+    # Update post fields
+    post.title = data['title']
+    post.content = data['content']
+    db.session.commit()
+
+    return jsonify({"message": "Post updated successfully!"}), 200
+
+
 
 #comments
 @blog_bp.route('/<int:post_id>/comments', methods=['POST'])

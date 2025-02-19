@@ -1,12 +1,14 @@
 <template>
-  <div>
-    <h1>Login</h1>
-    <form @submit.prevent="login">
-      <input v-model="username" placeholder="Username" />
-      <input v-model="password" type="password" placeholder="Password" />
-      <button type="submit">Login</button>
-    </form>
-    <p v-if="errorMessage">{{ errorMessage }}</p>
+  <div class="login">
+    <div class="container">
+      <h1>Conectar</h1>
+      <form @submit.prevent="login" class="form">
+        <input v-model="username" placeholder="Nome do usuário" />
+        <input v-model="password" type="password" placeholder="Senha" />
+        <button type="submit">Avançar</button>
+      </form>
+      <p v-if="errorMessage">Nome do usuário ou senha incorreta</p>
+    </div>
   </div>
 </template>
 
@@ -41,3 +43,43 @@ const login = async () => {
 };
 
 </script>
+
+<style scoped>
+.login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 500px;
+}
+
+.container {
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 3rem;
+  width: 25%;
+}
+
+@media (max-width: 374px) {
+  .container {
+    padding: 1rem;
+    width: 80%;
+
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form input {
+  padding: 0.5rem;
+  border-radius: 10px;
+}
+
+.form button {
+  padding: 0.5rem;
+  border-radius: 10px;
+}
+</style>

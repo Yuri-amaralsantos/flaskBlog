@@ -22,7 +22,7 @@ function logout() {
   localStorage.removeItem("username");
   localStorage.removeItem("role");
   isAuthenticated.value = false; // Update state
-  router.push("/login");
+  router.push("/");
 }
 
 // Provide authentication state and logout function to all child components

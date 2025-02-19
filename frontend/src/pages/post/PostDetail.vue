@@ -64,40 +64,58 @@ onMounted(loadPostAndComments);
         <p v-if="errorMessage">{{ errorMessage }}</p>
 
         <div v-if="isLoggedIn">
-            <textarea v-model="newComment" placeholder="Add a comment..."></textarea>
-            <button @click="submitComment">Post Comment</button>
+            <textarea v-model="newComment" placeholder="Add a comment..." class="textarea"></textarea>
+            <button @click="submitComment" class="button">Post Comment</button>
         </div>
 
         <div v-for="comment in comments" :key="comment.id" class="comment">
-            <p><strong>{{ comment.author }}</strong> | {{ comment.created_at }}</p>
-            <p>{{ comment.content }}</p>
-
-            <!-- Delete button visible if the user is logged in and is the comment's author, or if the user is admin -->
-            <button v-if="isLoggedIn && (comment.author === username || isAdmin)" @click="removeComment(comment.id)">
-                Delete
-            </button>
+            <div>
+                <p><strong>{{ comment.author }}</strong> | {{ comment.created_at }}</p>
+                <p>{{ comment.content }}</p>
+            </div>
+            <div>
+                <!-- Delete button visible if the user is logged in and is the comment's author, or if the user is admin -->
+                <button v-if="isLoggedIn && (comment.author === username || isAdmin)"
+                    @click="removeComment(comment.id)">
+                    Delete
+                </button>
+            </div>
         </div>
     </div>
 </template>
 
 <style scoped>
 .comment {
-    border: 1px solid #ddd;
+    width: 90%;
+    border: 1px solid black;
     padding: 10px;
     margin: 5px 0;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
 }
 
-textarea {
-    width: 100%;
+.comment button {
+    padding: 8px 16px;
+    border: 1px solid black;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.textarea {
+    padding: 24px;
+    width: 90%;
     height: 80px;
     margin: 10px 0;
+    border-radius: 10px;
 }
 
-button {
+.button {
     padding: 8px 16px;
-    background: blue;
-    color: white;
-    border: none;
+    border: 1px solid black;
+    border-radius: 10px;
     cursor: pointer;
 }
 </style>

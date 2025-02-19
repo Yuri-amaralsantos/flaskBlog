@@ -40,12 +40,12 @@ const createPost = async () => {
 </script>
 
 <template>
-  <div>
-    <h1>Create Post</h1>
+  <div class="page">
+    <h1>Criar postagem</h1>
 
-    <input v-model="title" placeholder="Title" />
-    <textarea v-model="content" placeholder="Content"></textarea>
-    <button @click="createPost">Submit Post</button>
+    <input v-model="title" placeholder="Titulo (maximo de 200 characteres)" class="input" />
+    <textarea v-model="content" placeholder="Texto" class="textarea"></textarea>
+    <button @click="createPost" class="button">Postar</button>
 
     <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     <p v-if="successMessage" class="success">{{ successMessage }}</p>
@@ -53,19 +53,32 @@ const createPost = async () => {
 </template>
 
 <style scoped>
-input,
-textarea {
-  display: block;
-  width: 30%;
-  margin-bottom: 10px;
-  padding: 8px;
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 }
 
-button {
-  padding: 10px;
-  background: blue;
-  color: white;
-  border: none;
+.input,
+.textarea {
+  width: 90%;
+  margin: 10px 0;
+  border-radius: 10px;
+}
+
+.input {
+  padding: 1rem 1rem;
+}
+
+.textarea {
+  padding: 1rem 1rem;
+  min-height: 300px;
+}
+
+.button {
+  padding: 8px 16px;
+  border: 1px solid black;
+  border-radius: 10px;
   cursor: pointer;
 }
 
