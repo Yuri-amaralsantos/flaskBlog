@@ -49,8 +49,13 @@ def delete_post(post_id):
     if not post:
         return jsonify({"message": "Post not found"}), 404
 
-    if post.author_username != current_username:
-        return jsonify({"message": "Unauthorized"}), 403  # Prevents deletion by others
+    user = User.query.filter_by(username=current_username).first()
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
+    # Check if user is the comment's author or an admin
+    if post.author_username != current_username and user.role != 'admin':
+        return jsonify({"message": "Unauthorized"}), 403
 
     db.session.delete(post)
     db.session.commit()
@@ -94,8 +99,13 @@ def edit_post(post_id):
     if not post:
         return jsonify({"message": "Post not found"}), 404
 
-    if post.author_username != current_username:
-        return jsonify({"message": "Unauthorized"}), 403  # Prevents editing by others
+    user = User.query.filter_by(username=current_username).first()
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
+
+    if post.author_username != current_username and user.role != 'admin':
+        return jsonify({"message": "Unauthorized"}), 403
 
     # Update post fields
     post.title = data['title']
@@ -159,8 +169,13 @@ def delete_comment(comment_id):
     if not comment:
         return jsonify({"message": "Comment not found"}), 404
 
-    if comment.author_username != current_username:
-        return jsonify({"message": "Unauthorized"}), 403
+    user = User.query.filter_by(username=current_username).first()
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
+    # Check if user is the comment's author or an admin
+    if comment.author_username != current_username and user.role != 'admin':
+        return jsonify({"message": user.role}), 403
 
     db.session.delete(comment)
     db.session.commit()

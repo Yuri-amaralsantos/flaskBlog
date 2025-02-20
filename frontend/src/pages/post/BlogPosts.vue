@@ -19,7 +19,7 @@
           <div class="text">
             <h3>{{ post.title }}</h3>
             <p>{{ truncateWords(post.content, 30) }}</p>
-            <p>Postado por: {{ post.author }} | {{ formatDate(post.created_at) }}</p>
+            <p>Por: {{ post.author }} | {{ formatDate(post.created_at) }}</p>
           </div>
           <div>
             <button v-if="isLoggedIn && (post.author === username || isAdmin)" @click.stop=" editPost(post.id)"

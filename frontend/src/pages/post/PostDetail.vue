@@ -57,15 +57,15 @@ onMounted(loadPostAndComments);
 <template>
     <div>
         <h1>{{ post?.title }}</h1>
-        <p><small>By: {{ post?.author }} | {{ post?.created_at }}</small></p>
+        <p><small>Por: {{ post?.author }} | {{ post?.created_at }}</small></p>
         <p>{{ post?.content }}</p>
 
-        <h2>Comments</h2>
+        <h2>Comentários</h2>
         <p v-if="errorMessage">{{ errorMessage }}</p>
 
         <div v-if="isLoggedIn">
-            <textarea v-model="newComment" placeholder="Add a comment..." class="textarea"></textarea>
-            <button @click="submitComment" class="button">Post Comment</button>
+            <textarea v-model="newComment" placeholder="Comentário..." class="textarea"></textarea>
+            <button @click="submitComment" class="button">Adicionar comentário</button>
         </div>
 
         <div v-for="comment in comments" :key="comment.id" class="comment">
@@ -77,7 +77,7 @@ onMounted(loadPostAndComments);
                 <!-- Delete button visible if the user is logged in and is the comment's author, or if the user is admin -->
                 <button v-if="isLoggedIn && (comment.author === username || isAdmin)"
                     @click="removeComment(comment.id)">
-                    Delete
+                    Deletar
                 </button>
             </div>
         </div>
