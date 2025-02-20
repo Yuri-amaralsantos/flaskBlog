@@ -1,6 +1,8 @@
 # Blog API & Frontend (Flask + Vue.js + PostgreSQL)
 Este é um projeto de blog que utiliza Flask como backend, Vue.js como frontend e PostgreSQL como banco de dados. Ele permite a criação de postagens, comentários, login com JWT e um sistema de privilégios para administradores.
 
+![Demonstração](animation2.gif)
+
 ## Funcionalidades
 Autenticação JWT: Cadastro e login de usuários com autenticação segura via JWT.
 Postagens: Criar, editar e remover postagens no blog.
